@@ -13,6 +13,12 @@ module VagrantPlugins
         Config
       end
 
+      action_hook(:do_before_boot, :machine_action_up) do |hook|
+        require_relative 'action/check_block'
+        init!
+        hook.prepend(VagrantPlugins::Blocker::Action::CheckBlock)
+      end
+
       protected
 
       def self.init!
