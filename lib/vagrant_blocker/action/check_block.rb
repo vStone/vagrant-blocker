@@ -8,26 +8,31 @@ module VagrantPlugins
           @app = app
           @machine = env[:machine]
           @global_env = @machine.env
-          @config = @machine.config
         end
 
         def call(env)
           # Only do stuff if we want to bring a machine up.
           return @app.call(env) if !env[:machine_action] == :up
 
-          my_blockers = @config.blocker.blocks
           # Aquire active machines and check their blockers.
-          @global_env.active_machines.each do |name, provider|
-            if my_blockers && my_blockers.include?(name)
-              raise Errors::BoxBlockedByRunningVM, name: name
-            end
-            machine = @global_env.machine(name, provider)
-            machine_blocks = machine.config.blocker.blocks
-            if machine_blocks.include?(@machine.name)
-              raise Errors::BoxBlocksRunningVM, name: machine.name.to_s
-            end
+          @machine.env.active_machines.each do |name, provider|
+            test_block_by_running(name)
+            test_blocks_running(name, provider)
           end
           @app.call(env)
+        end
+
+        private
+
+        def test_block_by_running(name)
+          my_blockers = @machine.config.blocker.blocks
+          raise Errors::BoxBlockedByRunningVM, name: name if my_blockers && my_blockers.include?(name)
+        end
+
+        def test_blocks_running(name, provider)
+          machine = @machine.env.machine(name, provider)
+          machine_blocks = machine.config.blocker.blocks
+          raise Errors::BoxBlocksRunningVM, name: machine.name.to_s if machine_blocks.include?(@machine.name)
         end
       end
     end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 module VagrantPlugins
   module Blocker
+    # Vagrant plugin that allows machines to block eachother from running simultaneously
     class Plugin < Vagrant.plugin('2')
       name 'Vagrant Blocker'
       description <<-EOF
@@ -18,8 +19,6 @@ module VagrantPlugins
         init!
         hook.prepend(VagrantPlugins::Blocker::Action::CheckBlock)
       end
-
-      protected
 
       def self.init!
         return if defined?(@_init)

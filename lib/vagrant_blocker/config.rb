@@ -19,19 +19,20 @@ module VagrantPlugins
 
       def validate(machine)
         errors = []
-        [@blocks].flatten.uniq.map(&:to_sym).each do |blocker|
-          unless machine.env.machine_names.include?(blocker)
-            message = I18n.t('vagrant_blocker.warnings.blocker_not_found', blocker: blocker.to_s, name: machine.name.to_s)
-            if @strict_config
-              errors << message
-            else
-              machine.env.ui.warn(message)
-            end
-          end
+        @blocks.each do |blocker|
+          next if machine.env.machine_names.include?(blocker)
+          errors << I18n.t('vagrant_blocker.warnings.blocker_not_found', blocker: blocker.to_s, name: machine.name.to_s)
         end
-        { 'blocker' => errors}
+        report(errors, machine.env.ui)
       end
 
+      private
+
+      def report(errors, ui)
+        return { 'blocker' => errors } if @strict_config
+        errors.each { |m| ui.warn(m) }
+        {}
+      end
     end
   end
 end
