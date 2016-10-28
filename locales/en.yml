@@ -1,0 +1,10 @@
+---
+en:
+  vagrant_blocker:
+    errors:
+      box_blocked_by_running_vm: |
+        Machine '%{name}' has blocked this machine from running.
+
+      box_blocks_running_vm: |
+        This machine is blocking already running machine '%{name}'.
+
