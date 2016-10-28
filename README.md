@@ -8,7 +8,30 @@ Block certain VMs from running together in a multi-VM vagrant setup.
 
 ## Usage
 
-@TODO
+This plugin can be used to make sure certain machines can not be run together:
+When bringing a machine up, an error will be thrown whenever a box that blocks
+or is blocked by an already running machine.
+
+```ruby
+  config.vm.define 'foo' do |vm|
+    vm.blocker.blocks = 'bar'
+  end
+  config.vm.define 'bar'
+```
+
+By default, if a non-existant machine is configured in the blockers, an error
+will be thrown. You can disable this behaviour by setting strict_config to `false`:
+
+```ruby
+  config.blocker.strict_config = false
+
+  config.vm.define 'strict' do |vm|
+    vm.blocker.strict_config = true
+    vm.blocker.blocks = %w(foo nonexistant)
+  end
+
+  config.vm.define 'foo'
+```
 
 ## Testing
 
@@ -24,11 +47,8 @@ Block certain VMs from running together in a multi-VM vagrant setup.
   ```
 
 2. Run `bundle install`
-3. @TODO
-
-## Example
-
-@TODO
+3. You can use vagrant like you are used to with `bundle exec vagrant <command>`.
+   An example Vagrantfile can be found in the test folder.
 
 ## Contributing
 
