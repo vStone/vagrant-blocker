@@ -7,4 +7,6 @@ en:
 
       box_blocks_running_vm: |
         This machine is blocking already running machine '%{name}'.
-
+    warnings:
+      blocker_not_found:
+        Could not find the blocker '%{blocker}' for machine '%{name}'.
