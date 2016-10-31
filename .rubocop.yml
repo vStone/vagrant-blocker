@@ -1,3 +1,6 @@
 ---
 Metrics/LineLength:
   Max: 140
+Style/FileName:
+  Exclude:
+    - lib/vagrant-blocker.rb
