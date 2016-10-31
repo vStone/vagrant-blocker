@@ -1,4 +1,7 @@
+
 # Vagrant::Blocker
+
+[![Gem Version](https://badge.fury.io/rb/vagrant-blocker.svg)](https://badge.fury.io/rb/vagrant-blocker)
 
 Block certain VMs from running together in a multi-VM vagrant setup.
 
