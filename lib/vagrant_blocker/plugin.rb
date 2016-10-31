@@ -1,4 +1,11 @@
 # frozen_string_literal: true
+
+begin
+  require 'vagrant'
+rescue LoadError
+  raise 'The vagrant-disksize plugin must be run within vagrant.'
+end
+
 module VagrantPlugins
   module Blocker
     # Vagrant plugin that allows machines to block eachother from running simultaneously
