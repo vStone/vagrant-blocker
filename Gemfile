@@ -2,7 +2,7 @@
 source 'https://rubygems.org'
 
 group :development do
-  gem 'vagrant', '1.8.6', git: 'https://github.com/mitchellh/vagrant.git', tag: 'v1.8.6'
+  gem 'vagrant'
   gem 'rubocop'
   gem 'awesome_print'
   gem 'rake'
